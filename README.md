@@ -45,6 +45,5 @@ The **Mobimeds** application is a simple desktop-based pharmacy management syste
 ## Authors
 
 Aarav Desai
+<br>
 Ayush Bhatnagar
-
-
