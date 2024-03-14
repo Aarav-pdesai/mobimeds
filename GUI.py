@@ -1,12 +1,14 @@
-
-#import Owner
+import threading
+from Customer import *
+from owner import *
 from tkinter import *
 from PIL import ImageTk,Image
 import PIL
 
+
 window = Tk()
 window.title('mobimeds')
-photo = PhotoImage(file = "snake logo.ico")
+photo = PhotoImage(file = "C:\\Users\parim\\Desktop\\snake logo.ico")
 window.iconphoto(False, photo)
 #buttons,labels and functions
 
@@ -16,16 +18,17 @@ def submit():
     if password=="enigma":
         openowner()
         
+        
     elif password!="enigma":
         passw_var.set("")
 
 
 #customer
 def purchase():
-    pass
-    #purchase() from customer module
+    threading.Thread(target=items).start()
+    #items() function is from customer module
 def register1():
-    pass
+    threading.Thread(target=register).start()
 def opencustomer():
     newWindow1 = Toplevel(window)
     newWindow1.title("CUSTOMER")
@@ -34,10 +37,10 @@ def opencustomer():
     l1 = Label(newWindow1, height = 5, width = 53,bg="lightblue",text="what would you like to do?",fg="green")
     l1.config(font=("Times new roman",24))
     l1.place(x=290,y=20)
-    btn3=Button(newWindow1,height=3,width=28, borderwidth=5,command=lambda:[newWindow1.destroy(), register1()]) 
+    btn3=Button(newWindow1,height=3,width=28, borderwidth=5,command = lambda:[newWindow1.destroy(), register1(), window.destroy()]) 
     btn3.config(font=("Impact",30), fg="navy",bg="red",text="REGISTER\n(special discount for members)")
-    btn3.place(x=560,y=400)
-    btn4=Button(newWindow1,height=3,width=28, borderwidth=5,command=purchase)
+    btn3.place(x=460,y=400)
+    btn4=Button(newWindow1,height=3,width=28, borderwidth=5,command = lambda:[newWindow1.destroy(), purchase(), window.destroy()])
     btn4.config(font=("Impact",30),fg="navy",bg="red",text="PURCHASE")
     btn4.place(x=460,y=200)
     ex4 = Button(newWindow1,text = "Exit",height=1,width=6, command = newWindow1.destroy)
@@ -55,19 +58,22 @@ def openpassword():
     t=Entry(newWindow3,width=30,show="*",textvariable=passw_var)
     t.place(x=700,y=200)
     #submit button
-    sub_btn=Button(newWindow3,text = 'Submit', command = submit)
+    sub_btn=Button(newWindow3,text = 'Submit', command = lambda:[submit(),newWindow3.destroy()])
     sub_btn.place(x=755,y=250)
     #label
     l = Label(newWindow3, height = 1, width = 53,bg="lightblue",text="AUTHORIZATION CODE REQUIRED",fg="red",font="Verdana 15 underline")
     #l.config(font=(15)
     l.place(x=470,y=140)
 def empmang():
+    threading.Thread(target=Employee).start()
     #employee_management() from owner module
-    pass
+    #threading prevents the freezing/crashing issue
+    #by shifting the high time-complexity tasks to a different thread
     
 def prodmang():
+    threading.Thread(target=Product).start()
     #product_management() from owner module
-    pass
+    
 
 def openowner():
     newWindow2 = Toplevel(window)
@@ -77,11 +83,11 @@ def openowner():
     l1 = Label(newWindow2, height = 5, width = 53,bg="lightblue",text="what would you like to do?",fg="green")
     l1.config(font=("Times new roman",24))
     l1.place(x=290,y=20)
-    btn5=Button(newWindow2,height=3,width=28, borderwidth=5, command= empmang)
+    btn5=Button(newWindow2,height=3,width=28, borderwidth=5, command= lambda: [empmang(),newWindow2.destroy(),window.destroy()])
     btn5.config(font=("Impact",30),fg="green",bg="yellow",text="EMPLOYEE MANAGEMENT")
     btn5.place(x=460,y=200)
     
-    b6=Button(newWindow2,height=3,width=28, borderwidth=5,command=prodmang)
+    b6=Button(newWindow2,height=3,width=28, borderwidth=5,command=lambda: [prodmang(), newWindow2.destroy(), window.destroy()])
     b6.config(font=("Impact",30),fg="green",bg="yellow",text="PRODUCT MANAGEMENT")
     b6.place(x=460,y=500)
     
