@@ -4,13 +4,22 @@ from owner import *
 from tkinter import *
 from PIL import ImageTk,Image
 import PIL
+import pygame
 
-
+pygame.init()
 window = Tk()
 window.title('mobimeds')
 photo = PhotoImage(file = "C:\\Users\parim\\Desktop\\snake logo.ico")
 window.iconphoto(False, photo)
 #buttons,labels and functions
+
+pygame.mixer.music.load("moment-14023.mp3")
+pygame.mixer.music.play(-1)
+def on_close():
+    pygame.mixer.music.stop()  # Stop the music when the window is closed
+    window.destroy()
+window.protocol("WM_DELETE_WINDOW", on_close)
+
 
 passw_var=StringVar()
 def submit():
